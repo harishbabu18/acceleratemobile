@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 
 
@@ -13,15 +14,32 @@ class Intro extends StatefulWidget {
 }
 
 class _IntroState extends State<Intro> {
+  final storage = new FlutterSecureStorage();
+
 
   @override
   void initState() {
     super.initState();
+_read();
+  }
 
-    Timer.run(() {
-      Navigator.of(context).pushNamed("login");
-    });
+  _read() async {
+    final key = 'user_tokken';
+    final value =  await storage.read(key: key) ?? 0;
 
+    if(value==0){
+
+      Timer.run(() {
+        Navigator.of(context).pushNamed("login");
+      });
+
+    } else {
+
+      Timer.run(() {
+        Navigator.of(context).pushNamed("dashboard");
+      });
+
+    }
 
   }
 
